@@ -27,5 +27,10 @@ int main()
     auto pos = std::unique(v.begin(), v.end());
     std::ostream_iterator<int> intWriter(std::cout, " ");
 	std::copy(v.begin(), pos, intWriter);
+    std::cout << std::count(v.begin(), v.end(),
+                        [](int elem) {
+                            return (elem%2==1);
+                        });
+	std::copy(v.begin(), v.end(), intWriter);
 	return 0;
 }
