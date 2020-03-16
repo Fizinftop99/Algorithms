@@ -2,6 +2,7 @@
 #include <vector>
 #include <iterator>
 #include <algorithm>
+#include <cstdlib>
 
 class IntSequence {
 private:
@@ -21,7 +22,10 @@ int main()
     std::istream_iterator<int> intReader(std::cin);
     std::istream_iterator<int> intReaderEOF;
     std::copy(intReader, intReaderEOF, back_inserter(v));
-    std::ostream_iterator<int> intWriter(std::cout, "\n");
-	std::copy(v.cbegin(), v.cend(), intWriter);
+    std::random_shuffle(v.begin(), v.end());
+    std::sort(v.begin(), v.end());
+    auto pos = std::unique(v.begin(), v.end());
+    std::ostream_iterator<int> intWriter(std::cout, " ");
+	std::copy(v.begin(), pos, intWriter);
 	return 0;
 }
