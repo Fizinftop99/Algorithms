@@ -36,26 +36,23 @@ public:
 };
 
 int main() {
-    std::istream_iterator<int> intReader(std::cin);
-    std::istream_iterator<int> intReaderEOF;
     std::ostream_iterator<int> intWriter(std::cout, " ");
 
-    std::vector<int> v;
-
     //1)создание последовательности:
+    std::vector<int> v;
     std::generate_n(back_inserter(v), 10, IntSequence(1));
 
     // 2)добавка в конец из cin:
-    std::copy(intReader, intReaderEOF, back_inserter(v));
+    /*std::istream_iterator<int> intReader(std::cin);
+    std::istream_iterator<int> intReaderEOF;
+    std::copy(intReader, intReaderEOF, back_inserter(v));*/
 
     // 3)перемешивание:
-    {
-        std::default_random_engine dre;
-        std::shuffle(v.begin(), v.end(), dre);
-        std::cout << "shuffling: ";
-        std::copy(v.begin(), v.end(), intWriter);
-        std::cout << '\n';
-    }
+    std::default_random_engine dre;
+    std::shuffle(v.begin(), v.end(), dre);
+    std::cout << "shuffling: ";
+    std::copy(v.begin(), v.end(), intWriter);
+    std::cout << '\n';
 
     // 4)удаление дубликатов:
     sort(v.begin(), v.end());
@@ -87,6 +84,17 @@ int main() {
     transform(v.cbegin(), v.cend(), v.begin(), Power_2());
     std::copy(v.cbegin(), v.cend(), intWriter);
     std::cout << '\n';
-
+    
+    // 9)
+    std::vector<int> v2;
+    std::uniform_int_distribution<> dr(1, 100);
+    std::generate_n(back_inserter(v2), 10, 
+        [&dr, &dre]() {
+            return dr(dre);
+        });
+    std::cout << "Created random sequence: ";
+    std::copy(v2.cbegin(), v2.cend(), intWriter);
+    std::cout << '\n';
+    
 	return 0;
 }
