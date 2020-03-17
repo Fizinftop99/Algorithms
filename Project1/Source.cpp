@@ -37,7 +37,10 @@ int main()
     std::cout << count_if(v.begin(), v.end(),
                         [](int elem) {
                             return (elem%2==1);
-                        });
+                        }) << '\n';
+    // Нахождение минимального и максимального значения
+    std::cout << "min: " << *min_element(v.begin(), v.end()) << '\n';
+    std::cout << "max: " << *max_element(v.begin(), v.end()) << '\n';
 	
 	return 0;
 }
