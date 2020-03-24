@@ -39,8 +39,13 @@ public:
     }
 };
 
-int main() {
+void print_vector(const std::vector<int>& v) {
     std::ostream_iterator<int> intWriter(std::cout, " ");
+    std::copy(v.cbegin(), v.cend(), intWriter);
+    std::cout << '\n';
+}
+
+int main() {
 
     //1)
     std::vector<int> v;
@@ -55,16 +60,14 @@ int main() {
     std::default_random_engine dre;
     std::shuffle(v.begin(), v.end(), dre);
     std::cout << "shuffling: ";
-    std::copy(v.begin(), v.end(), intWriter);
-    std::cout << '\n';
+    print_vector(v);
 
     // 4)
     sort(v.begin(), v.end());
     auto pos = unique(v.begin(), v.end());
     v.erase(pos, v.end());
     std::cout << "unique: ";
-	copy(v.begin(), v.end(), intWriter);
-    std::cout << '\n';
+    print_vector(v);
 
     // 5)
     std::cout << "quantity of odd numbers: ";
@@ -86,30 +89,40 @@ int main() {
 
     // 8)
     transform(v.cbegin(), v.cend(), v.begin(), Power_2());
-    std::copy(v.cbegin(), v.cend(), intWriter);
-    std::cout << '\n';
+    print_vector(v);
     
     // 9)
     std::vector<int> v2;
-    std::uniform_int_distribution<> dr(1, 100);
+    std::uniform_int_distribution<> dr(1, 150);
     std::generate_n(back_inserter(v2), v.size(), 
         [&dr, &dre]() {
             return dr(dre);
         });
     std::cout << "Created random sequence: ";
-    std::copy(v2.cbegin(), v2.cend(), intWriter);
-    std::cout << '\n';
+    print_vector(v2);
 
     // 10)
     std::cout << "sum = " << std::accumulate(v2.cbegin(), v2.cend(), 0) << '\n';
     
     // 11)
-    std::uniform_int_distribution<> dr2(1, v2.size()-1);
+    std::uniform_int_distribution<> dr2(1, v2.size() / 2);
     int amount = dr2(dre);
     std::fill_n(v2.begin(), amount, 1);
     std::cout << "replaced with 1: ";
-    std::copy(v2.cbegin(), v2.cend(), intWriter);
-    std::cout << '\n';
+    print_vector(v2);
+
+    // 12)
+    std::vector<int> v3;
+    std::transform(v.begin(), v.end(), v2.begin(), std::back_inserter(v3), [](int& elem1, int& elem2) {
+        return elem1 - elem2;
+        });
+    std::cout << "difference: ";
+    print_vector(v3);
+
+    // 13)
+    std::replace_if(v3.begin(), v3.end(), [](const int& elem) {return elem < 0; }, 0);
+    std::cout << "zero: ";
+    print_vector(v3);
 
 	return 0;
 }
