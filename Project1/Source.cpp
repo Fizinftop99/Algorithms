@@ -146,5 +146,28 @@ int main() {
     std::cout << "16) Three greatest elements are: " << v3[0]
         << ' ' << v3[1] << ' ' << v3[2] << '\n';
 
+    // 17)
+    std::sort(v.begin(), v.end());
+    std::sort(v2.begin(), v2.end());
+    std::cout << "17) Sorted:\n";
+    print_vector(v);
+    print_vector(v2);
+
+    // 18)
+    std::vector<int> v4;
+    std::merge(v.begin(), v.end(), v2.begin(), v2.end(), std::back_inserter(v4));
+    std::cout << "18) Merged: ";
+    print_vector(v4);
+
+    // 19)
+    auto range = std::equal_range(v4.begin(), v4.end(), 1);
+    std::cout << "19) Range for insert: " << *range.first << ' ' << *range.second << '\n';
+
+    // 20)
+    std::cout << "20)\n";
+    print_vector(v);
+    print_vector(v2);
+    print_vector(v3);
+    print_vector(v4);
 	return 0;
 }
